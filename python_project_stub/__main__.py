@@ -1,3 +1,6 @@
-print('outside guard')
+import sys
+from .main import main
+
+
 if '__main__' == __name__:
-    print('inside guard')
+    sys.exit(main())

@@ -141,7 +141,6 @@ $ source activate venv-my-project-name/bin/activate
 Execute the following sequence of commands to build the package
 ```sh
 $ pip install --upgrade pip
-$ pip install --upgrade setuptools wheel
 $ pip install --upgrade build
 $ python -m build
 ```
@@ -193,6 +192,7 @@ which should produce an error.
 
 Now install the package from the test PyPI with
 ```sh
+$ pip install --upgrade setuptools wheel
 $ pip install \
 >     --index-url https://test.pypi.org/simple/ \
 >     --extra-index-url https://pypi.org/simple/ \
@@ -203,21 +203,16 @@ Then execute
 ```sh
 $ python -m my_project_name
 ```
-and the output should be
-```
-outside guard
-inside guard
-```
 
-Now uninstall the package:
+Read the `my_project_name/__main__.py` file to see if the
+output of the above command agrees with what you see in
+that file.
+
+Now uninstall the package with
 ```sh
 $ pip uninstall my-project-name
 ```
-and confirm again that running
-```sh
-$ python -m my_project_name
-```
-now is unsuccessful.
+in preparation for the next section.
 
 <h2 id='upload-the-package-to-the-real-pypi'>Upload the package to the real PyPI</h2>
 
@@ -236,7 +231,13 @@ The address to get the API token is exactly the same except omit the
 
 ### Download and install the package
 
-Then test by downloading and installing from the real PyPI using `pip`:
+Confirm that the package is not currently installed in your virtual environment:
+```sh
+$ python -m my_project_name
+```
+should produce an error.
+
+Now test that the package can be installed from the real PyPI using `pip`:
 ```sh
 pip install --no-cache-dir my-project-name
 ```

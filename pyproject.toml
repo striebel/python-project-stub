@@ -8,5 +8,7 @@
         {name = "Jacob Striebel"}
     ]
     description = "Python project stub"
+[project.scripts]
+    python_project_stub = "python_project_stub.main:main"
 [project.urls]
     "Homepage" = "https://github.com/striebel/python-project-stub"
