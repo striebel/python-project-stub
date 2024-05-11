@@ -3,15 +3,44 @@
     build-backend = "setuptools.build_meta"
 [project]
     name = "python-project-stub"
-    version = "0.0.0"
-    dependencies = [
-        "numpy"
-    ]
+    version = "0.0.1"
+    urls = {"Home-page" = "https://github.com/striebel/python-project-stub"}
+    
     authors = [
         {name = "Jacob Striebel"}
     ]
-    description = "Python project stub"
+    
+    # The value of the "description" field will be displayed:
+    #     * In a banner at the top of "pypi.org/project/python-project-stub".
+    #     * As the value of the "Summary" field when "pip show python-project-stub"
+    #           is executed.
+    #
+    # In multi-line comments in TOML files, a line-ending backslash eats the
+    #    newline character and eats all leading whitespace that had followed the
+    #    newline.
+    #    This differs from the behavior in Python source code where a line-ending
+    #    backslash within a multi-line comment eats the newline but does not touch
+    #    leading whitespace that had followed the newline.
+    description = """\
+        Stub files to use as the basis of a Python project that can be \
+        packaged and uploaded to PyPI.\
+        """
+    
+    license = {text = "BSD 3-Clause License"}
+    
+    dependencies = [
+        
+        # This dependency should be removed and the standard library
+        #     "tomllib" module should be used in code once Python 3.11,
+        #     the version when the "tomllib" module was introduced,
+        #     is more widely available
+        #     (https://docs.python.org/3/library/tomllib.html).
+        "toml>=0.10.2,<1.0.0"
+    ]
+
+    readme = "README.md"
+    
 [project.scripts]
-    python_project_stub = "python_project_stub.main:main"
-[project.urls]
-    "Homepage" = "https://github.com/striebel/python-project-stub"
+    python_project_stub = "python_project_stub.__main__:main"
+# [project.urls]
+#     "Homepage" = "https://github.com/striebel/python-project-stub"

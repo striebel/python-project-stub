@@ -1,8 +1,14 @@
-# Python Project Stub
+# python-project-stub
 
-<a href="https://pypi.org/project/python-project-stub/"><img alt="PyPI" src="https://img.shields.io/pypi/v/python-project-stub"></a>
-<a href="https://pepy.tech/project/python-project-stub"><img alt="Downloads" src="https://static.pepy.tech/badge/python-project-stub"></a>
-<a href="https://github.com/striebel/python-project-stub/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/striebel/python-project-stub"></a>
+<a href="https://pypi.org/project/python-project-stub/">
+    <img alt="PyPI" src="https://img.shields.io/pypi/v/python-project-stub">
+</a>
+<a href="https://pepy.tech/project/python-project-stub">
+    <img alt="Downloads" src="https://static.pepy.tech/badge/python-project-stub">
+</a>
+<a href="https://github.com/striebel/python-project-stub/blob/master/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/striebel/python-project-stub">
+</a>
 
 This repo contains stub files that can be used to create a Python project
 that is able to be packaged and uploaded to the Python Package Index and
