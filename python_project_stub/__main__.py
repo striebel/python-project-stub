@@ -5,11 +5,10 @@ import toml # This import should be replaced with "tomllib" once Python 3.11,
             #     into the standard library, is more widely available
             #     (https://docs.python.org/3/library/tomllib.html).
 import argparse
-from textwrap import indent
 
 
-PACKAGE_NAME     = 'python-project-stub'
-ROOT_MODULE_NAME = 'python_project_stub'
+from . import PACKAGE_NAME
+from . import ROOT_MODULE_NAME
 
 
 def main():
@@ -63,7 +62,7 @@ def main():
 
         quote_str = quote_file.read().strip()
 
-    print(indent(text = quote_str, prefix = ' ' * 4))
+    print(quote_str)
     
     return 0
 

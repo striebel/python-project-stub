@@ -1,4 +1,4 @@
-# python-project-stub
+# `python-project-stub`
 
 <a href="https://pypi.org/project/python-project-stub/">
     <img alt="PyPI" src="https://img.shields.io/pypi/v/python-project-stub">
@@ -9,18 +9,20 @@
 <a href="https://github.com/striebel/python-project-stub/blob/master/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/striebel/python-project-stub">
 </a>
+<br/>
+This repository contains stub files that can be used to create a Python project
+that is able to be packaged and uploaded to the [Python Package Index](https://pypi.org)
+and hence can be conveniently installed with `pip install my-project-name`.
 
-This repo contains stub files that can be used to create a Python project
-that is able to be packaged and uploaded to the Python Package Index and
-hence can be installed with `pip install my-project-name`.
-This README describes how to modify the stubs and use them as the base of
+This README describes how to modify the stub files, using them as the base of
 a new Python project.
-(The requirements in order to follow the steps below
-are a recent installation of Python 3 [>= 3.8] on Linux.)
+Requirements are a recent installation of Python 3 on Linux.
 
 ## Contents
 
 * <a href='#choose-a-project-name'>Choose a project name</a>
+
+  - <a href='#update-package-metadata'>Update package metadata</a>
 
 * <a href='#create-a-github-repo'>Create a GitHub repo</a>
 
@@ -36,53 +38,91 @@ are a recent installation of Python 3 [>= 3.8] on Linux.)
 
 First, clone this repository by typing the following at a Linux shell
 ```sh
-$ git clone git@github.com:striebel/python-project-stub.git
+git clone git@github.com:striebel/python-project-stub.git
 ```
+
 This creates the directory `python-project-stub` in the current
 working directory.
 Rename this directory to the name of your project with
 ```sh
-$ mv python-project-stub my-project-name
+mv python-project-stub my-project-name
 ```
+
 Before choosing a project name, check if the name has been taken
 yet by visiting
 ```
 https://pypi.org/project/my-project-name
 ```
-If you get a 404 error, then the name you want hasn't been taken.
-Also search your project name from the PyPI search bar on the homepage,
+
+If you get a 404 error, then your desired name hasn't been taken.
+Also search your project name from the PyPI search bar on the
+[homepage](https://pypi.org),
 because if there is another project with a name that is only a character or two
 different from your desired name, your name will likely be rejected
 when you try to upload your package.
 
 After you choose a project name,
 `cd` into the repo root dir and remove the existing git repo itself,
-since you are going to create a new repo for your project:
+since you will subsequently create a brand new repo for your project:
 ```sh
-$ cd my-project-name
-$ rm -rf .git
-```
-Next open `pyproject.toml` in a text editor:
-change the project name field value
-from `python-project-stub` to `my-project-name`.
-Also update the author name, the project description, and homepage fields.
-
-After saving `pyproject.toml` with these changes,
-rename the adjacent source code directory (`python_project_stub`)
-to agree with the new project's name.
-For example, execute
-```sh
-$ mv python_project_stub my_project_name
+cd my-project-name
+rm -rf .git
 ```
 
-With `my-project-name` still as your working dir, now execute
+And, next, rename the project's root module based on the new name that you chose;
+while the convention is to use hyphens in the project/package name, Python does not
+permit hyphens in module names, so the convention is to replace them with
+underscores; thus, for example, execute:
+```
+mv python_project_stub my_project_name
+```
+
+<h3 id='update-package-metadata'>Update package metadata</h3>
+
+There are several locations where metadata needs to be updated in the
+stub files.
+
+First, update `pyproject.toml`; open the file in a text editor,
+and, under the `[project]` heading, update the following fields:
+
+* `name = "python-project-stub  --->  name = "my-project-name"`
+* `version = x.y.z  --->  version = 0.0.1`
+* `license` (if you prefer/need to use a different license)
+
+Also, under `[project.scripts]`, change
+```
+python_project_stub = "python_project_stub.__main__:main"
+```
+to
+```
+my_project_name = "my_project_name.__main__:main"
+```
+
+And update all fields under `[projects.url]`.
+
+After saving `pyproject.toml` with these changes, next open
+`setup.cfg`.
+All fields in this file should need to be updated.
+
+Finally, open `my_project_name/__init__.py` and update the
+metadata variables as needed.
+
+With the metadata updated and with
+`my-project-name` still as the working dir, now execute
 ```sh
 $ python -m my_project_name
 ```
-This will produce some output on the terminal.
-Open `my_project_name/__main__.py` with a text editor to check
-if what was printed on the terminal agrees with what you see
-in that file.
+
+The expected output is
+```
+/* Kernighan and Ritchie (1978, p. 6) */
+main()
+{
+    printf("hello, world\n");
+}
+```
+which is just intended to show that the stub main function can
+be executed.
 
 <h2 id='create-a-github-repo'>Create a GitHub repo</h2>
 

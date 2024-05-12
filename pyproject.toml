@@ -4,11 +4,6 @@
 [project]
     name = "python-project-stub"
     version = "0.0.1"
-    urls = {"Home-page" = "https://github.com/striebel/python-project-stub"}
-    
-    authors = [
-        {name = "Jacob Striebel"}
-    ]
     
     # The value of the "description" field will be displayed:
     #     * In a banner at the top of "pypi.org/project/python-project-stub".
@@ -42,5 +37,5 @@
     
 [project.scripts]
     python_project_stub = "python_project_stub.__main__:main"
-# [project.urls]
-#     "Homepage" = "https://github.com/striebel/python-project-stub"
+[project.urls]
+    "Homepage" = "https://github.com/striebel/python-project-stub"
