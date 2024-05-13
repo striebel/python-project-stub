@@ -4,6 +4,7 @@
 [project]
     name = "python-project-stub"
     version = "0.0.1"
+    dynamic = ["authors"] # specified in setup.cfg
     
     # The value of the "description" field will be displayed:
     #     * In a banner at the top of "pypi.org/project/python-project-stub".
@@ -18,7 +19,7 @@
     #    leading whitespace that had followed the newline.
     description = """\
         Stub files to use as the basis of a Python project that can be \
-        packaged and uploaded to PyPI.\
+        packaged and uploaded to PyPI\
         """
     
     license = {text = "BSD 3-Clause License"}
