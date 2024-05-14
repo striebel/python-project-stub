@@ -4,7 +4,7 @@
 
 [project]
     name = "python-project-stub"
-    version = "0.0.4"
+    version = "0.0.5"
     dynamic = ["authors"] # specified in setup.cfg
     
     # The value of the "description" field will be displayed:
