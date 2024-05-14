@@ -217,7 +217,7 @@ $ ls -l dist
 
 <h2 id='upload-the-package-to-pypi-test'>Upload the package to PyPI test</h2>
 
-### Create the test Python package-index entry
+### Create/register the test Python package-index entry
 
 First visit
 <a href="https://test.pypi.org">
@@ -228,7 +228,7 @@ and create an account.
 Next create a PyPI Test API token here: <br/>
 <a href="https://test.pypi.org/manage/account/#api-tokens">
     https://test.pypi.org/manage/account/#api-tokens
-</a>
+</a>.<br/>
 Name the token something like `tmp-universal-token` and set the token scope to
 `Entire account (all projects)`.
 
@@ -416,17 +416,109 @@ my-package-name x.y.z+1
 
 <h2 id='upload-the-package-to-the-real-pypi'>Upload the package to the real PyPI</h2>
 
-### Upload the package
+### Create/register the regular Python package-index entry
 
-Create an account at `https://pypi.org`.
+First visit
+<a href="https://pypi.org">
+    https://pypi.org
+</a>
+and create an account.
+
+Next create a PyPI API token here: <br/>
+<a href="https://pypi.org/manage/account/#api-tokens">
+    https://pypi.org/manage/account/#api-tokens
+</a>.<br/>
+Name the token something like `tmp-universal-token` and set the token scope to
+`Entire account (all projects)`.
+
+Since this is a pure Python package, upload only the source package
+(`dist/my-project-name-x.y.z.tar.gz`) -
+no need to upload the pre-built binary "wheel"
+(`dist/my-project-name-0.0.0-py3-none-any.whl`):
+```sh
+pip install --upgrade 'twine>=5.0.0,<6.0.0'
+python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/my-project-name-x.y.z+1.tar.gz
+```
+For username enter `__token__` and for the password enter the token value
+including the `pypi-` prefix.
+
+The `twine register` command is not supported by PyPI, so the `twine upload` command
+invocation described above is the only option to create a new package-index entry.
+
+### Set up `~/.pypirc` with `my-package-name`-specific token
+
+Now that the new package-index entry has been created,
+an authentication token specific to the entry can be created
+and added to a local config file so that credentials don't need to
+be manually entered every time a new version of the package is uploaded.
+
+First, delete the token created above (e.g., named `tmp-universal-token`).
+To do this, navigate to: <br/>
+<a href="https://test.pypi.org/manage/account/#api-tokens">
+    https://test.pypi.org/manage/account/#api-tokens
+</a>.<br/>
+Then create the entry-specific token with permission only to upload to
+`my-project-name`.
+
+Now add this token to the PyPI run conditions file (`~/.pypirc`)
+which have should have already been created.
+Confirm that access permissions for `~/.pypirc` is set to private,
+and set it if it is not already:
+```sh
+chmod 600 ~/.pypirc # r+w for the user only
+```
+
+The file should already contain the following:
+```
+# https://packaging.python.org/en/latest/specifications/pypirc/
+
+[distutils]
+    index-servers =
+        testpypi-my-project-name
+        pypi-my-project-name
+
+[testpypi-my-project-name]
+    repository = https://test.pypi.org/legacy/
+    username = __token__
+    password = <testpypi_token_goes_here>
+
+[pypi-my-project-name]
+    repository = https://upload.pypi.org/legacy/
+    username = __token__
+    password = <pypi_token_goes_here>
+```
+and the field `<testpypi_token_goes_here>` should already be filled in.
+Now fill in the only remaining empty field of `<pypi_token_goes_here>`
+with the just-created token that starts with `pypi- ...`.
+
+Now open `pyproject.toml` and increment the version `x.y.z+1` to `x.y.z+2`.
+
+Next remove the sdist (source distribution) package with `rm -rf dist`,
+and then rebuild the package with the updated version number by running
+`make build`.
+
+Then upload by running:
+```sh
+python -m twine upload \
+    --repository pypi-my-project-name \
+    dist/my-project-name-x.y.z+2.tar.gz
+```
+This is also implemented in the makefile and can be run with:
+```sh
+make upload
+```
 
 ### Download and install the package
 
 Confirm that the package is not currently installed in your virtual environment:
 ```sh
-$ python -m my_project_name
+python -m my_project_name
 ```
-should produce an error.
+should produce a module-not-found error. And
+```sh
+pip show my-project-name
+```
+should report that the package is not installed.
 
 Now test that the package can be installed from the real PyPI using `pip`:
 ```sh
@@ -436,6 +528,14 @@ pip install --no-cache-dir my-project-name
 Confirm that the install worked by executing
 ```sh
 python -m my_project_name
+```
+and test the console script with
+```sh
+my_project_name
+```
+And confirm that the version number is as expected with
+```sh
+my_project_name --version
 ```
 
 <h2 id='bibliography'>Links</h2>

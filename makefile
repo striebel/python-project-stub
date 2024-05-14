@@ -13,3 +13,9 @@ upload-testpypi:
 	venv-${PACKAGE_NAME}/bin/python -m twine upload \
             --repository testpypi-${PACKAGE_NAME} dist/$$(ls dist)
 
+upload:
+	python -m venv venv-${PACKAGE_NAME}
+	venv-${PACKAGE_NAME}/bin/pip install --upgrade pip
+	venv-${PACKAGE_NAME}/bin/pip install --upgrade 'twine>=5.0.0,<6.0.0'
+	venv-${PACKAGE_NAME}/bin/python -m twine upload \
+            --repository pypi-${PACKAGE_NAME} dist/$$(ls dist)
