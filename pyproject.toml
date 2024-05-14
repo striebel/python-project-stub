@@ -1,9 +1,10 @@
 [build-system]
     requires = ["setuptools>=61.0"]
     build-backend = "setuptools.build_meta"
+
 [project]
     name = "python-project-stub"
-    version = "0.0.1"
+    version = "0.0.3"
     dynamic = ["authors"] # specified in setup.cfg
     
     # The value of the "description" field will be displayed:
@@ -25,18 +26,23 @@
     license = {text = "BSD 3-Clause License"}
     
     dependencies = [
-        
-        # This dependency should be removed and the standard library
-        #     "tomllib" module should be used in code once Python 3.11,
-        #     the version when the "tomllib" module was introduced,
-        #     is more widely available
-        #     (https://docs.python.org/3/library/tomllib.html).
-        "toml>=0.10.2,<1.0.0"
+        "numpy>=1.0.0,<2.0.0",
+        "pandas>=2.0.0,<3.0.0"
     ]
 
     readme = "README.md"
     
 [project.scripts]
     python_project_stub = "python_project_stub.__main__:main"
+
 [project.urls]
     "Homepage" = "https://github.com/striebel/python-project-stub"
+
+
+# https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+[tool.setuptools]
+    include-package-data = true
+
+[tool.setuptools.packages.find]
+    where = ["."]

@@ -27,7 +27,7 @@
 
 * <a href='#choose-a-project-name'>Choose a project name</a>
 
-  - <a href='#update-package-metadata'>Update package metadata</a>
+* <a href='#update-package-metadata'>Update package metadata</a>
 
 * <a href='#create-a-github-repo'>Create a GitHub repo</a>
 
@@ -37,7 +37,7 @@
 
 * <a href='#upload-the-package-to-the-real-pypi'>Upload the package to the real PyPI</a>
 
-* <a href='#bibliography'>Bibliography</a>
+* <a href='#bibliography'>Links</a>
 
 <h2 id='choose-a-project-name'>Choose a project name</h2>
 
@@ -82,7 +82,7 @@ underscores; thus, for example, execute:
 mv python_project_stub my_project_name
 ```
 
-<h3 id='update-package-metadata'>Update package metadata</h3>
+<h2 id='update-package-metadata'>Update package metadata</h2>
 
 There are several locations where metadata needs to be updated in the
 stub files.
@@ -217,7 +217,7 @@ $ ls -l dist
 
 <h2 id='upload-the-package-to-pypi-test'>Upload the package to PyPI test</h2>
 
-### Create the package-index entry
+### Create the test Python package-index entry
 
 First visit
 <a href="https://test.pypi.org">
@@ -292,57 +292,133 @@ The `<pypi_token_goes_here` field can be filled in later.
 
 Now open `pyproject.toml` and increment the version `x.y.z` to `x.y.z+1`.
 
-Now 
+Next remove the sdist (source distribution) package with `rm -rf dist`,
+and then rebuild the package with the updated version number by running
+`make build`.
+
+Then upload by running:
+```sh
+python -m twine upload \
+    --repository testpypi-my-project-name \
+    dist/my-project-name-x.y.z+1.tar.gz
+```
+This is also implemented in the makefile and can be run with:
+```sh
+make upload-testpypi
+```
 
 ### Download and install the package
 
-To confirm that the package was properly uploaded, first
+To confirm that the package was properly uploaded to testpypi, first
 `cd` out of the repo root into, say, your home directory.
 Confirm that the package is not installed in the current
 virtual environment by executing:
 ```sh
 python -m my_project_name
 ```
-which should produce an error.
+which should produce an error message saying there is no module of the name
+`my_project_name`.
 
-Now install the package from the test PyPI with
+Also run
 ```sh
-$ pip install --upgrade setuptools wheel
-$ pip install \
+pip show my-project-name
+```
+which should report that the package is not found.
+
+If the package is found, then uninstall it:
+```sh
+pip uninstall my-project-name
+```
+
+Then check if the package remains in the pip cache, which it likely will:
+```sh
+pip cache list my_project_name
+```
+or
+```sh
+pip cache list | grep -E 'my[-_]project[-_]name'
+```
+
+Then remove it from the cache:
+```sh
+pip cache remove my_project_name
+```
+
+Now install the package from the test PyPI.
+Clear documentation is not available that describes how to download and install
+a package from testpypi while also downloading and installing all dependencies
+exclusively from the regular pypi.
+For example, as of 2024-05-13, <br/>
+<a href="https://packaging.python.org/en/latest/guides/using-testpypi/#using-testpypi-with-pip">
+    https://packaging.python.org/en/latest/guides/using-testpypi/#using-testpypi-with-pip
+</a> <br/>
+provides the following invocation of pip if "you also want to download packages
+from PyPI [when installing a package from testpypi]":
+```sh
+pip install \
 >     --index-url https://test.pypi.org/simple/ \
 >     --extra-index-url https://pypi.org/simple/ \
 >     my-project-name
 ```
+but it is not at all clear what the behavior of this pip invocation
+will be when a package with the name of a dependency
+is available on both testpypi and regular pypi.
+(The help messages for `--index-url` and `--extra-index-url` do not
+clarify this issue.)
 
-Then execute
+Thus to ensure the desired behavior of downloading all dependencies from the
+regular pypi, first download the package from testpyi without installing it:
 ```sh
-$ python -m my_project_name
+mkdir tmp && cd tmp
+python -m pip download \
+    --no-deps \
+    --index-url https://test.pypi.org/simple/ \
+    --extra-index-url https://pypi.org/simple/ \
+    my-package-name
+```
+The `--extra-index-url https://pypi.org/simple/` argument is required
+because the build-system setuptools needs to be downloaded from the regular pypi.
+Executing this command will place a file named something like
+`my_package_name-x.y.z+1.tar.gz` in the current dir.
+
+Now install the package, downloading the dependencies from the regular pypi by default,
+by running:
+```sh
+pip install ./my_package_name-x.y.z+1.tar.gz
 ```
 
-Read the `my_project_name/__main__.py` file to see if the
-output of the above command agrees with what you see in
-that file.
-
-Now uninstall the package with
+Then try executing both
 ```sh
-$ pip uninstall my-project-name
+python -m my_package_name
 ```
-in preparation for the next section.
+and the console script
+```sh
+my_package_name
+```
+They should both produce:
+```
+/* Kernighan and Ritchie (1978, p. 6) */
+main()
+{
+    printf("hello, world\n");
+}
+```
+
+Also try running:
+```sh
+my_package_name --version
+```
+which should produce
+```
+my-package-name x.y.z+1
+```
+
 
 <h2 id='upload-the-package-to-the-real-pypi'>Upload the package to the real PyPI</h2>
 
 ### Upload the package
 
 Create an account at `https://pypi.org`.
-Then follow the steps in the previous section again, except when doing
-the "twine upload," omit `--repository testpypi` so that by default the
-real PyPI will be used, i.e.:
-```sh
-python -m twine upload dist/my-project-name-0.0.0.tar.gz
-```
-
-The address to get the API token is exactly the same except omit the
-`test` subdomain, like [here](https://pypi.org/manage/account/#api-tokens)
 
 ### Download and install the package
 
@@ -362,9 +438,11 @@ Confirm that the install worked by executing
 python -m my_project_name
 ```
 
-<h2 id='bibliography'>Bibliography</h2>
+<h2 id='bibliography'>Links</h2>
 
 * [Python packaging user guide](https://packaging.python.org/en/latest/)
   - [Packaging python projects tutorial](
         https://packaging.python.org/en/latest/tutorials/packaging-projects/
     )
+
+

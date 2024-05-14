@@ -1,9 +1,6 @@
 import sys
 import os
-import toml # This import should be replaced with "tomllib" once Python 3.11,
-            #     which is the version when the "tomllib" module was introduced
-            #     into the standard library, is more widely available
-            #     (https://docs.python.org/3/library/tomllib.html).
+import importlib.metadata
 import argparse
 
 
@@ -21,23 +18,24 @@ def main():
 
     assert ROOT_MODULE_NAME == os.path.basename(root_module_dir_path)
 
-    package_root_dir_path = os.path.dirname(root_module_dir_path)
+    installation_dir_path = os.path.dirname(root_module_dir_path)
 
-    assert PACKAGE_NAME == os.path.basename(package_root_dir_path)
+    assert os.path.basename(installation_dir_path) in [PACKAGE_NAME, 'site-packages']
 
-    pyproject_toml_file_path = os.path.join(package_root_dir_path, 'pyproject.toml')
 
-    assert os.path.isfile(pyproject_toml_file_path)
+    metadata = None
+    try:
+        metadata = importlib.metadata.metadata(PACKAGE_NAME)
+    except importlib.metadata.PackageNotFoundError:
+        pass
 
-    with open(pyproject_toml_file_path, 'r') as pyproject_toml_file:
+    summary = metadata['Summary'] if metadata else 'summary_not_available'
+    version = metadata['Version'] if metadata else 'version_not_available'
 
-        pyproject_dict = toml.load(pyproject_toml_file)
 
-    assert PACKAGE_NAME == pyproject_dict['project']['name']
-    
     arg_parser = argparse.ArgumentParser(
         prog                  = ROOT_MODULE_NAME,
-        description           = pyproject_dict['project']['description'],
+        description           = summary,
         formatter_class       = argparse.ArgumentDefaultsHelpFormatter,
         fromfile_prefix_chars = '@'
     )
@@ -45,10 +43,11 @@ def main():
     arg_parser.add_argument(
         '-V', '--version',
         action  = 'version',
-        version = PACKAGE_NAME + ' ' + pyproject_dict['project']['version']
+        version = PACKAGE_NAME + ' ' + version
     )
     
     args = arg_parser.parse_args()
+
 
     data_dir_path = os.path.join(root_module_dir_path, 'data')
 
