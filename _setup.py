@@ -101,7 +101,7 @@ def main():
             readme = "README.md"
 
         [project.scripts]
-            {package_module_import_name} = "{package_module_import_path}.__main__:main"
+            {package_module_import_path} = "{package_module_import_path}.__main__:main"
 
         [project.urls]
             "Homepage" = "https://github.com/{GITHUB_USER}/{NAME}"
