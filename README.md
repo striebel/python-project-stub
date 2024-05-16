@@ -25,6 +25,8 @@
 
 ## Contents
 
+* <a href='#outstanding-issues'>Outstanding issues</a>
+
 * <a href='#choose-a-project-name'>Choose a project name</a>
 
 * <a href='#update-package-metadata'>Update package metadata</a>
@@ -38,6 +40,13 @@
 * <a href='#upload-the-package-to-the-real-pypi'>Upload the package to the real PyPI</a>
 
 * <a href='#bibliography'>Links</a>
+
+<h2 id='outstanding-issues'>Outstanding issues</h2>
+
+* When building a project named, e.g., `python.project.stub`,
+  how can one get a dist file named
+  - `python.project.stub-x.y.z.tar.gz`
+  -  and not `python_project_stub-x.y.z.targ.gz`?
 
 <h2 id='choose-a-project-name'>Choose a project name</h2>
 

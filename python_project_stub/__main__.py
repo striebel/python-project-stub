@@ -3,12 +3,17 @@ import os
 import importlib.metadata
 import argparse
 
-
-from . import PACKAGE_NAME
-from . import ROOT_MODULE_NAME
+from . import meta
 
 
 def main():
+
+    assert 'NAME' not in globals()
+
+    exec(meta.get_meta_str())
+
+    assert 'NAME' in globals()
+
 
     this_file_path = __file__
 
@@ -16,25 +21,22 @@ def main():
 
     root_module_dir_path = os.path.dirname(this_file_path)
 
-    assert ROOT_MODULE_NAME == os.path.basename(root_module_dir_path)
-
     installation_dir_path = os.path.dirname(root_module_dir_path)
-
-    assert os.path.basename(installation_dir_path) in [PACKAGE_NAME, 'site-packages']
 
 
     metadata = None
     try:
-        metadata = importlib.metadata.metadata(PACKAGE_NAME)
+        metadata = importlib.metadata.metadata(NAME)
     except importlib.metadata.PackageNotFoundError:
         pass
 
+    name    = metadata['Name']    if metadata else 'name_not_available'
     summary = metadata['Summary'] if metadata else 'summary_not_available'
     version = metadata['Version'] if metadata else 'version_not_available'
 
 
     arg_parser = argparse.ArgumentParser(
-        prog                  = ROOT_MODULE_NAME,
+        prog                  = name,
         description           = summary,
         formatter_class       = argparse.ArgumentDefaultsHelpFormatter,
         fromfile_prefix_chars = '@'
@@ -43,7 +45,7 @@ def main():
     arg_parser.add_argument(
         '-V', '--version',
         action  = 'version',
-        version = PACKAGE_NAME + ' ' + version
+        version = f'{name} {version}'
     )
     
     args = arg_parser.parse_args()

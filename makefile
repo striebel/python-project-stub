@@ -13,6 +13,15 @@ build:
 	rm ./MANIFEST.in
 	rm -rf ./*.egg-info
 
+test:
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip uninstall --yes $${NAME}
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --no-cache-dir \
+		./dist/`printf $${NAME} | tr .- _`-$${VERSION}.tar.gz
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m \
+		`printf $${NAME} | tr - _`
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m \
+		`printf $${NAME} | tr - _` --version
+
 upload-testpypi:
 	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
@@ -21,7 +30,7 @@ upload-testpypi:
 		'twine>=5.0.0,<6.0.0'
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m twine upload \
         	--repository testpypi-$${NAME} \
-		dist/`printf $${NAME} | tr - _`-$${VERSION}.tar.gz
+		./dist/`printf $${NAME} | tr .- _`-$${VERSION}.tar.gz
 
 upload:
 	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
@@ -30,5 +39,5 @@ upload:
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
 		'twine>=5.0.0,<6.0.0'
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m twine upload \
-        	--repository pypi-$${NAME} \
-		dist/`printf $${NAME} | tr - _`-$${VERSION}.tar.gz
+        	--repository pypi-for-all-projects \
+		./dist/`printf $${NAME} | tr .- _`-$${VERSION}.tar.gz
