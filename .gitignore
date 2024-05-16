@@ -6,4 +6,5 @@ __pycache__/
 *.swp
 pyproject.toml
 setup.cfg
+MANIFEST.in
 .eggs/*
