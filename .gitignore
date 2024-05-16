@@ -4,3 +4,6 @@ tmp/
 __pycache__/
 *egg-info/
 *.swp
+pyproject.toml
+setup.cfg
+.eggs/*

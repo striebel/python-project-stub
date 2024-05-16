@@ -1,21 +1,32 @@
-PACKAGE_NAME = python-project-stub
-
 build:
-	python -m venv venv-${PACKAGE_NAME}
-	venv-${PACKAGE_NAME}/bin/pip install --upgrade pip
-	venv-${PACKAGE_NAME}/bin/pip install --upgrade build
-	venv-${PACKAGE_NAME}/bin/python -m build --sdist .
+	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+		'pip>=21.0.1,<24.1.0'
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+		'build>=1.2.1,<2.0.0'
+	./_setup.py
+	rm -rf ./dist
+	. ./meta.sh >/dev/null && rm -rf ./$${NAME}.egg-info
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m build --sdist .
+	rm ./pyproject.toml
+	rm ./setup.cfg
 
 upload-testpypi:
-	python -m venv venv-${PACKAGE_NAME}
-	venv-${PACKAGE_NAME}/bin/pip install --upgrade pip
-	venv-${PACKAGE_NAME}/bin/pip install --upgrade 'twine>=5.0.0,<6.0.0'
-	venv-${PACKAGE_NAME}/bin/python -m twine upload \
-            --repository testpypi-${PACKAGE_NAME} dist/$$(ls dist)
+	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+		'pip>=21.0.1,<24.1.0'
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+		'twine>=5.0.0,<6.0.0'
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m twine upload \
+        	--repository testpypi-$${NAME} \
+		dist/`printf $${NAME} | tr - _`-$${VERSION}.tar.gz
 
 upload:
-	python -m venv venv-${PACKAGE_NAME}
-	venv-${PACKAGE_NAME}/bin/pip install --upgrade pip
-	venv-${PACKAGE_NAME}/bin/pip install --upgrade 'twine>=5.0.0,<6.0.0'
-	venv-${PACKAGE_NAME}/bin/python -m twine upload \
-            --repository pypi-${PACKAGE_NAME} dist/$$(ls dist)
+	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+		'pip>=21.0.1,<24.1.0'
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+		'twine>=5.0.0,<6.0.0'
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m twine upload \
+        	--repository pypi-$${NAME} \
+		dist/`printf $${NAME} | tr - _`-$${VERSION}.tar.gz
