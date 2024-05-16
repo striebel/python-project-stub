@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+#
+# Script to generate pyproject.toml and setup.cfg files
+#
+#
 import sys
 import os
-
-from setuptools import setup
+import textwrap
 
 
 def main():
@@ -74,39 +78,49 @@ def main():
         package_module_import_name = package_module_import_path[last_dot_index+1:]
 
 
-    entry_points = {
-        package_module_import_name : f'{package_module_import_path}.__main__:main'
-    }
+    pyproject_toml_str = textwrap.dedent(
+        f'''\
+        [build-system]
+            requires      = ["setuptools>=61.0.0"]
+            build-backend = "setuptools.build_meta"
 
+        [project]
+            name         = "{NAME}"
+            version      = "{VERSION}"
+            dynamic      = ["authors"] # specified in setup.cfg
+            description  = "{DESCRIPTION}"
+            license      = {{text = "MIT"}}
+            dependencies = [] # TODO
+            readme = "README.md"
 
-    # https://setuptools.pypa.io/en/latest/references/keywords.html
+        [project.scripts]
+            {package_module_import_name} = "{package_module_import_path}.__main__:main"
 
-    setup(
-        name             = NAME,
-        version          = VERSION,
-        # description      = DESCRIPTION,
-        # long_description = None, # open and read the README.md
-        # author           = AUTHOR,
-        # author_email     = AUTHOR_EMAIL,
-        # maintainer       = None,
-        # maintainer_email = None,
-        # url              = f'https://github.com/striebel/{NAME}',
-        # download_url     = None,
-        packages         = [root_module_import_name],
-        # # ...
-        # license          = 'MIT',
-        # license_file     = None, # setuptools docs say: deprecated
-        # license_files    = ['LICENSE'],
-        # # ...
-        # platforms        = ['Linux'],
-        # data_files       = [], # setuptools docs say: use discouraged
-        # # ...
-        install_requires   = [], # packages that this package depends on
-        # entry_points     = entry_points,
-        # # ...
-        setup_requires     = ['setuptools>=69.5.1', 'wheel>=0.43.0'], # latest as of 2024-05-16
-        # ...
+        [project.urls]
+            "Homepage" = "https://github.com/{GITHUB_USER}/{NAME}"
+        '''
     )
+
+    with open('./pyproject.toml', 'w') as pyproject_toml_file:
+        pyproject_toml_file.write(pyproject_toml_str)
+
+    setup_cfg_str = textwrap.dedent(
+        f'''\
+        [metadata]
+            # This "url" field will be used as the "Home-page" field when
+            #     "pip show <package>" is executed.
+            #     There appears to be no way to set "Home-page" in pyproject.toml
+            url = https://github.com/{GITHUB_USER}/{NAME}
+
+            # Providing author and email in this file also fills in the
+            #     fields more properly that are displayed with "pip show <package>"
+            author       = {AUTHOR}
+            author_email = {AUTHOR_EMAIL}
+        '''
+    )
+
+    with open('./setup.cfg', 'w') as setup_cfg_file:
+        setup_cfg_file.write(setup_cfg_str)
 
     return 0
 
