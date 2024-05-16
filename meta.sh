@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 
-export VERSION=0.0.7
+export VERSION=0.0.8
 
 export NAME=python-project-stub
 
