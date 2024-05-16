@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 #
-# Script to generate pyproject.toml and setup.cfg files
-#
+# Script to generate
+#     * pyproject.toml
+#     * setup.cfg
+#     * MANIFEST.in
 #
 import sys
 import os
@@ -78,6 +80,11 @@ def main():
         package_module_import_name = package_module_import_path[last_dot_index+1:]
 
 
+    package_module_dir_path = package_module_import_path.replace('.', '/')
+
+    assert os.path.isdir(os.path.join('.', package_module_dir_path))
+
+
     pyproject_toml_str = textwrap.dedent(
         f'''\
         [build-system]
@@ -104,6 +111,7 @@ def main():
     with open('./pyproject.toml', 'w') as pyproject_toml_file:
         pyproject_toml_file.write(pyproject_toml_str)
 
+
     setup_cfg_str = textwrap.dedent(
         f'''\
         [metadata]
@@ -122,10 +130,30 @@ def main():
     with open('./setup.cfg', 'w') as setup_cfg_file:
         setup_cfg_file.write(setup_cfg_str)
 
+
+    manifest_in_str = ''
+
+    for data_file_path_suffix in DATA_FILE_PATH_SUFFIXES.split(':'):
+
+        data_file_path = os.path.join(
+            package_module_dir_path,
+            data_file_path_suffix
+        )
+
+        assert os.path.isfile(os.path.join('.', data_file_path))
+
+        manifest_in_str += f'include {data_file_path}\n'
+
+    with open('./MANIFEST.in', 'w') as manifest_in_file:
+        manifest_in_file.write(manifest_in_str)
+
+
     return 0
+
 
 
 if '__main__' == __name__:
     sys.exit(main())
+
 
 
