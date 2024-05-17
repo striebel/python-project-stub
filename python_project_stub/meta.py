@@ -1,7 +1,13 @@
 import os
 
 
-def get_meta_str() -> str:
+def get_meta_str(package_module_dir_path : str) -> str:
+
+    assert os.path.isdir(package_module_dir_path)
+
+    meta_sh_file_path = os.path.join(package_module_dir_path, 'meta.sh')
+
+    assert os.path.isfile(meta_sh_file_path)
 
     pipefd = os.pipe()
 
@@ -15,7 +21,7 @@ def get_meta_str() -> str:
 
         os.close(pipefd[1])
 
-        argv = ['./meta.sh']
+        argv = [meta_sh_file_path]
 
         os.execve(argv[0], argv, os.environ)
 
