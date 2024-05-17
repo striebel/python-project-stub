@@ -8,18 +8,18 @@ from . import meta
 
 def main():
 
+    assert 'NAME' not in globals()
+
+    exec(meta.get_meta_str())
+
+    assert 'NAME' in globals()
+
+
     this_file_path = __file__
 
     assert '__main__.py' == os.path.basename(this_file_path)
 
     package_module_dir_path = os.path.dirname(this_file_path)
-
-
-    assert 'NAME' not in globals()
-
-    exec(meta.get_meta_str(package_module_dir_path))
-
-    assert 'NAME' in globals()
 
 
     metadata = None

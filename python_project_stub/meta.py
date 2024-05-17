@@ -1,7 +1,13 @@
 import os
 
 
-def get_meta_str(package_module_dir_path : str) -> str:
+def get_meta_str() -> str:
+
+    this_file_path = __file__
+
+    assert os.path.isfile(this_file_path)
+
+    package_module_dir_path = os.path.dirname(this_file_path)
 
     assert os.path.isdir(package_module_dir_path)
 
