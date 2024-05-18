@@ -1,3 +1,16 @@
+PIP_REQ_SPEC = 'pip>=21.0.1,<24.0.1'
+
+
+install-editable:
+	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+		$(PIP_REQ_SPEC)
+	./_setup.py
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --editable .
+	rm ./pyproject.toml
+	rm ./setup.cfg
+	rm ./MANIFEST.in
+
 build:
 	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
