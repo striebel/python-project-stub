@@ -16,13 +16,34 @@ export AUTHOR_EMAIL='jacob.striebel@example.com'
 export DATA_FILE_PATH_SUFFIXES='meta.sh:data/quote.txt' # When more needed, separate with colon (:)
 
 
-# https://stackoverflow.com/a/1463370
+# logging level str options:
+#
+#     CRITICAL, ERROR, WARNING, INFO, DEBUG
+#
+export DEFAULT_LOGGING_LEVEL_STR='DEBUG'
 
-printf 'global VERSION                ; VERSION                 = "'"${VERSION}"'"                \n'
-printf 'global NAME                   ; NAME                    = "'"${NAME}"'"                   \n'
-printf 'global DESCRIPTION            ; DESCRIPTION             = "'"${DESCRIPTION}"'"            \n'
-printf 'global GITHUB_USER            ; GITHUB_USER             = "'"${GITHUB_USER}"'"            \n'
-printf 'global AUTHOR                 ; AUTHOR                  = "'"${AUTHOR}"'"                 \n'
-printf 'global AUTHOR_EMAIL           ; AUTHOR_EMAIL            = "'"${AUTHOR_EMAIL}"'"           \n'
-printf 'global DATA_FILE_PATH_SUFFIXES; DATA_FILE_PATH_SUFFIXES = "'"${DATA_FILE_PATH_SUFFIXES}"'"\n'
+
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                 #
+#  Do not modify statements in the section below  #
+#                                                 #
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+
+printf 'global VERSION                  \n'
+printf 'global NAME                     \n'
+printf 'global DESCRIPTION              \n'
+printf 'global GITHUB_USER              \n'
+printf 'global AUTHOR                   \n'
+printf 'global AUTHOR_EMAIL             \n'
+printf 'global DATA_FILE_PATH_SUFFIXES  \n'
+printf 'global DEFAULT_LOGGING_LEVEL_STR\n'
+
+printf 'VERSION                   = "%s"\n' $VERSION
+printf 'NAME                      = "%s"\n' $NAME
+printf 'DESCRIPTION               = "%s"\n' "$DESCRIPTION"
+printf 'GITHUB_USER               = "%s"\n' $GITHUB_USER
+printf 'AUTHOR                    = "%s"\n' $AUTHOR
+printf 'AUTHOR_EMAIL              = "%s"\n' $AUTHOR_EMAIL
+printf 'DATA_FILE_PATH_SUFFIXES   = "%s"\n' $DATA_FILE_PATH_SUFFIXES
+printf 'DEFAULT_LOGGING_LEVEL_STR = "%s"\n' $DEFAULT_LOGGING_LEVEL_STR
 
