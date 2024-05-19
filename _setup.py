@@ -133,7 +133,7 @@ def main():
 
     manifest_in_str = ''
 
-    for data_file_path_suffix in DATA_FILE_PATH_SUFFIXES.split(':'):
+    for data_file_path_suffix in INCLUDE_FILES.split(':'):
 
         data_file_path = os.path.join(
             package_module_dir_path,

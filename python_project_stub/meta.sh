@@ -5,8 +5,9 @@ export VERSION=0.0.11
 
 export NAME=python-project-stub
 
-DESCRIPTION='Stub files to use as the basis of a Python project that'
-export DESCRIPTION="${DESCRIPTION} can be packaged and uploaded to PyPI"
+export DESCRIPTION=""
+export DESCRIPTION="${DESCRIPTION}Stub files to use as the basis of a Python"
+export DESCRIPTION="${DESCRIPTION} project that can be packaged and uploaded to PyPI"
 
 export GITHUB_USER='striebel'
 
@@ -19,7 +20,17 @@ export REQUIRES=''
 # export REQUIRES=${REQUIRES}',"torch==1.7.1"'
 # export REQUIRES=${REQUIRES}',"jsonnet==0.20.0"'
 
-export DATA_FILE_PATH_SUFFIXES='meta.sh:data/quote.txt' # When more needed, separate with colon (:)
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                                           #
+#  Most files other than Python source files must be explicitly specified   #
+#  if it is desired that they be included in the built package              #
+#                                                                           #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+export INCLUDE_FILES="meta.sh"
+export INCLUDE_FILES="${INCLUDE_FILES}:data/quote.txt"
+
 
 
 # logging level str options:
@@ -29,11 +40,14 @@ export DATA_FILE_PATH_SUFFIXES='meta.sh:data/quote.txt' # When more needed, sepa
 export DEFAULT_LOGGING_LEVEL_STR='DEBUG'
 
 
-# # # # # # # # # # # # # # # # # # # # # # # # # #
-#                                                 #
-#  Do not modify statements in the section below  #
-#                                                 #
-# # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                                           #
+#  The following statements print the the metadata variables defined above  #
+#  in a format that can be easily understood by a Python program            #
+#                                                                           #
+#  Do not modify statements in the section below                            #
+#                                                                           #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 printf 'global VERSION                  \n'
 printf 'global NAME                     \n'
@@ -42,7 +56,7 @@ printf 'global GITHUB_USER              \n'
 printf 'global AUTHOR                   \n'
 printf 'global AUTHOR_EMAIL             \n'
 printf 'global REQUIRES                 \n'
-printf 'global DATA_FILE_PATH_SUFFIXES  \n'
+printf 'global INCLUDE_FILES            \n'
 printf 'global DEFAULT_LOGGING_LEVEL_STR\n'
 
 printf 'VERSION                   = "%s"\n' "$VERSION"
@@ -52,6 +66,7 @@ printf 'GITHUB_USER               = "%s"\n' "$GITHUB_USER"
 printf 'AUTHOR                    = "%s"\n' "$AUTHOR"
 printf 'AUTHOR_EMAIL              = "%s"\n' "$AUTHOR_EMAIL"
 printf "REQUIRES                  = '%s'\n" "$REQUIRES"
-printf 'DATA_FILE_PATH_SUFFIXES   = "%s"\n' "$DATA_FILE_PATH_SUFFIXES"
+printf 'INCLUDE_FILES             = "%s"\n' "$INCLUDE_FILES"
 printf 'DEFAULT_LOGGING_LEVEL_STR = "%s"\n' "$DEFAULT_LOGGING_LEVEL_STR"
+
 
