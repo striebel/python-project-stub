@@ -14,7 +14,7 @@ export AUTHOR='Jacob Striebel'
 export AUTHOR_EMAIL='jacob.striebel@example.com'
 
 export REQUIRES=''
-# export REQUIRES=${REQUIRES}'"allennlp==1.3"'
+# export REQUIRES=${REQUIRES}'"allennlp==1.3.0"'
 # export REQUIRES=${REQUIRES}',"transformers==4.0.0"'
 # export REQUIRES=${REQUIRES}',"torch==1.7.1"'
 # export REQUIRES=${REQUIRES}',"jsonnet==0.20.0"'
