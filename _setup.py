@@ -97,7 +97,7 @@ def main():
             dynamic      = ["authors"] # specified in setup.cfg
             description  = "{DESCRIPTION}"
             license      = {{text = "MIT"}}
-            dependencies = [] # TODO
+            dependencies = [{REQUIRES}]
             readme = "README.md"
 
         [project.scripts]

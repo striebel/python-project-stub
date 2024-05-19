@@ -13,6 +13,10 @@ export GITHUB_USER='striebel'
 export AUTHOR='Jacob Striebel'
 export AUTHOR_EMAIL='jacob.striebel@example.com'
 
+# export REQUIRES='"torch==1.7.1"'
+# export REQUIRES='"torch==1.7.1","jsonnet==0.20.0"'
+export REQUIRES=''
+
 export DATA_FILE_PATH_SUFFIXES='meta.sh:data/quote.txt' # When more needed, separate with colon (:)
 
 
@@ -35,6 +39,7 @@ printf 'global DESCRIPTION              \n'
 printf 'global GITHUB_USER              \n'
 printf 'global AUTHOR                   \n'
 printf 'global AUTHOR_EMAIL             \n'
+printf 'global REQUIRES                 \n'
 printf 'global DATA_FILE_PATH_SUFFIXES  \n'
 printf 'global DEFAULT_LOGGING_LEVEL_STR\n'
 
@@ -44,6 +49,7 @@ printf 'DESCRIPTION               = "%s"\n' "$DESCRIPTION"
 printf 'GITHUB_USER               = "%s"\n' $GITHUB_USER
 printf 'AUTHOR                    = "%s"\n' $AUTHOR
 printf 'AUTHOR_EMAIL              = "%s"\n' $AUTHOR_EMAIL
+printf "REQUIRES                  = '%s'\n" $REQUIRES
 printf 'DATA_FILE_PATH_SUFFIXES   = "%s"\n' $DATA_FILE_PATH_SUFFIXES
 printf 'DEFAULT_LOGGING_LEVEL_STR = "%s"\n' $DEFAULT_LOGGING_LEVEL_STR
 

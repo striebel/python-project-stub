@@ -6,7 +6,8 @@ install-editable:
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
 		$(PIP_REQ_SPEC)
 	./_setup.py
-	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --editable .
+	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
+	       	--editable .
 	rm ./pyproject.toml
 	rm ./setup.cfg
 	rm ./MANIFEST.in
