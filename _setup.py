@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #
-# Script to generate
+# This script is used to generate
 #     * pyproject.toml
 #     * setup.cfg
 #     * MANIFEST.in
+#
 #
 import sys
 import os
@@ -12,48 +13,16 @@ import textwrap
 
 def main():
 
-    pipefd = os.pipe()
+    VERSION                   = os.environ['VERSION'                  ] 
+    NAME                      = os.environ['NAME'                     ] 
+    DESCRIPTION               = os.environ['DESCRIPTION'              ]  
+    GITHUB_USER               = os.environ['GITHUB_USER'              ] 
+    AUTHOR                    = os.environ['AUTHOR'                   ] 
+    AUTHOR_EMAIL              = os.environ['AUTHOR_EMAIL'             ] 
+    REQUIRES                  = os.environ['REQUIRES'                 ] 
+    INCLUDE_FILES             = os.environ['INCLUDE_FILES'            ]
+    DEFAULT_LOGGING_LEVEL_STR = os.environ['DEFAULT_LOGGING_LEVEL_STR']
 
-    pid = os.fork()
-
-    if 0 == pid:
-
-        os.close(pipefd[0])
-
-        os.dup2(pipefd[1], 1)
-
-        os.close(pipefd[1])
-
-        argv = ['./meta.sh']
-
-        os.execve(argv[0], argv, os.environ)
-
-        assert False, 'os.execve(...) returned, which is unexpected'
-
-    assert 0 < pid
-
-    os.close(pipefd[1])
-
-    wait_pid, retcode_raw = os.wait()
-
-    assert wait_pid == pid
-
-    retcode = retcode_raw >> 8
-
-    assert 0 == retcode
-
-    meta_bytes = b''
-    while True:
-        byte = os.read(pipefd[0], 1)
-        if 1 == len(byte):
-            meta_bytes += byte
-        else:
-            assert 0 == len(byte)
-            break
-
-    meta_str = meta_bytes.decode('utf-8')
-
-    exec(meta_str)
 
     package_module_import_path = NAME.replace('-', '_')
 
@@ -82,7 +51,8 @@ def main():
 
     package_module_dir_path = package_module_import_path.replace('.', '/')
 
-    assert os.path.isdir(os.path.join('.', package_module_dir_path))
+    assert os.path.isdir(os.path.join('.', package_module_dir_path)), \
+        f'package_module_dir_path : {package_module_dir_path}'
 
 
     pyproject_toml_str = textwrap.dedent(
@@ -98,10 +68,10 @@ def main():
             description  = "{DESCRIPTION}"
             license      = {{text = "MIT"}}
             dependencies = [{REQUIRES}]
-            readme = "README.md"
+            readme       = "README.md"
 
         [project.scripts]
-            {package_module_import_path} = "{package_module_import_path}.__main__:main"
+            "{package_module_import_path}" = "{package_module_import_path}.__main__:main"
 
         [project.urls]
             "Homepage" = "https://github.com/{GITHUB_USER}/{NAME}"
@@ -148,7 +118,7 @@ def main():
         manifest_in_file.write(manifest_in_str)
 
 
-    return 0
+    return 33
 
 
 
@@ -156,4 +126,4 @@ if '__main__' == __name__:
     sys.exit(main())
 
 
-
+END_OF_FILE

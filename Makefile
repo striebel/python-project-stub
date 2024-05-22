@@ -5,7 +5,7 @@ install-editable:
 	. ./meta.sh >/dev/null && python -m venv ./venv-$${NAME}
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
 		$(PIP_REQ_SPEC)
-	./_setup.py
+	. ./meta.sh >/dev/null && ./_setup.py
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
 	       	--editable .
 	rm ./pyproject.toml
@@ -18,7 +18,7 @@ build:
 		'pip>=21.0.1,<24.0.1'
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/pip install --upgrade \
 		'build>=1.2.1,<2.0.0'
-	./_setup.py
+	. ./meta.sh >/dev/null && ./_setup.py
 	rm -rf ./dist
 	rm -rf ./*.egg-info
 	. ./meta.sh >/dev/null && ./venv-$${NAME}/bin/python -m build --sdist .
