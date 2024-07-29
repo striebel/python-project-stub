@@ -19,6 +19,7 @@ def main():
     GITHUB_USER               = os.environ['GITHUB_USER'              ] 
     AUTHOR                    = os.environ['AUTHOR'                   ] 
     AUTHOR_EMAIL              = os.environ['AUTHOR_EMAIL'             ] 
+    BUILD_REQUIRES            = os.environ['BUILD_REQUIRES'           ]
     REQUIRES                  = os.environ['REQUIRES'                 ] 
     INCLUDE_FILES             = os.environ['INCLUDE_FILES'            ]
     DEFAULT_LOGGING_LEVEL_STR = os.environ['DEFAULT_LOGGING_LEVEL_STR']
@@ -58,7 +59,7 @@ def main():
     pyproject_toml_str = textwrap.dedent(
         f'''\
         [build-system]
-            requires      = ["setuptools>=61.0.0"]
+            requires      = [{BUILD_REQUIRES}]
             build-backend = "setuptools.build_meta"
 
         [project]
@@ -118,7 +119,7 @@ def main():
         manifest_in_file.write(manifest_in_str)
 
 
-    return 33
+    return 0
 
 
 
@@ -126,4 +127,3 @@ if '__main__' == __name__:
     sys.exit(main())
 
 
-END_OF_FILE
