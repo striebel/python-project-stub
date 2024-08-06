@@ -10,7 +10,7 @@
    :alt: License
    :target: https://github.com/striebel/python-project-stub/blob/master/LICENSE 
 
-The ``python-package-stub`` codebase provides stub files that
+The ``python-project-stub`` codebase provides stub files that
 can be used to create a Python project that is able to
 be packaged and uploaded to the Python Package Index
 and hence can be conveniently installed with
@@ -20,7 +20,11 @@ and hence can be conveniently installed with
    pip install python-project-stub
 
 Project links
+-------------
 
-* Repo: `https://github.com/striebel/python-project-stub <https://github.com/striebel/python-project-stub>`_
-* PyPI: `https://pypi.org/project/python-project-stub <https://pypi.org/project/python-project-stub>`_
-* Docs: `https://striebel.github.io/python-project-stub <https://striebel.github.io/python-project-stub>`_
+* Repo: `https://github.com/striebel/python-project-stub
+  <https://github.com/striebel/python-project-stub>`_
+* PyPI: `https://pypi.org/project/python-project-stub
+  <https://pypi.org/project/python-project-stub>`_
+* Docs: `https://striebel.github.io/python-project-stub
+  <https://striebel.github.io/python-project-stub>`_
