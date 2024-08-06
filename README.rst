@@ -15,7 +15,7 @@ can be used to create a Python project that is able to
 be packaged and uploaded to the Python Package Index
 and hence can be conveniently installed with
 
-.. code-block:: sh
+.. code-block:: bash
    pip install python-project-stub
 
 Project links
