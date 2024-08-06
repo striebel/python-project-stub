@@ -1,1 +1,0 @@
-./python_project_stub/meta.sh
