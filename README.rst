@@ -19,6 +19,6 @@ and hence can be conveniently installed with
 
 Project links
 
-* Repo: <https://github.com/striebel/python-project-stub>
-* PyPI: <https://pypi.org/project/python-project-stub>
-* Docs: <https://striebel.github.io/python-project-stub>
+* Repo: `https://github.com/striebel/python-project-stub <https://github.com/striebel/python-project-stub>`_
+* PyPI: `https://pypi.org/project/python-project-stub <https://pypi.org/project/python-project-stub>`_
+* Docs: `https://striebel.github.io/python-project-stub <https://striebel.github.io/python-project-stub>`_
