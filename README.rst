@@ -2,6 +2,14 @@
    :alt: PyPI
    :target: https://pypi.org/project/python-project-stub
 
+.. image:: https://img.shields.io/badge/python3-gray
+   :alt: Python 3
+   :target: https://docs.python.org/3/
+
+.. image:: https://img.shields.io/badge/linux-gray
+   :alt: Linux
+   :target: https://kernel.org/
+
 .. image:: https://static.pepy.tech/badge/python-project-stub
    :alt: Downloads
    :target: https://pepy.tech/project/python-project-stub
