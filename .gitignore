@@ -8,3 +8,7 @@ pyproject.toml
 setup.cfg
 MANIFEST.in
 .eggs/*
+meta.sh
+docs_build
+docs_source/index.rst
+docs_source/conf.py

@@ -176,11 +176,7 @@ def get_index_rst_str(
     index_body_rst_str = index_body_rst_file.read()
     index_body_rst_file.close()
 
-    header_str = f'{name_str} documentation'
-    underscore_str = '=' * len(header_str)
-
-    return header_str + '\n' + underscore_str + '\n\n' \
-        + readme_rst_str + index_body_rst_str
+    return '\\\n\n' + readme_rst_str + index_body_rst_str
 
 
 def get_sphinx_conf_py_str(

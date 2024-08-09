@@ -1,0 +1,3 @@
+conf.py        : compiled file, do not modify, depends on meta.sh
+index.rst      : compiled file, do not modify, depends on meta.sh, index_body.rst
+index_body.rst : source file, may be modified, used to built index.rst
