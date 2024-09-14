@@ -53,7 +53,7 @@ def main():
 
     assert os.path.isdir(data_dir_path)
 
-    quote_file_path = os.path.join(data_dir_path, 'quote.txt')
+    quote_file_path = os.path.join(data_dir_path, 'hello.txt')
 
     assert os.path.isfile(quote_file_path)
 

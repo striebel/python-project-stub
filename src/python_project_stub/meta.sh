@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 
-export VERSION=0.0.22
+export VERSION=0.0.23
 
 export NAME=python-project-stub
 
@@ -49,7 +49,7 @@ export REQUIRES=''
 #                                                                           #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 export INCLUDE_FILES="meta.sh"
-export INCLUDE_FILES="${INCLUDE_FILES}:data/quote.txt"
+export INCLUDE_FILES="${INCLUDE_FILES}:data/hello.txt"
 
 
 

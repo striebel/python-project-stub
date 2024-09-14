@@ -273,11 +273,59 @@ def main():
     )
 
 
-    package_module_dir_path = NAME.replace('-', '_')
+    project_source_tree_dir_path = os.path.join('.', 'src')
+    assert os.path.isdir(project_source_tree_dir_path), \
+        project_source_tree_dir_path
 
-    assert os.path.isdir(package_module_dir_path), \
-        f'package_module_dir_path : {package_module_dir_path}'
+
+    assert NAME.replace('-', 'a').replace('.', 'b').isalpha(), \
+        f'NAME "{NAME}" should only contain alphabetic characters, '+\
+        'hyphens, and dots'
+    assert '--' not in NAME, \
+        f'NAME "{NAME}" should not contain adjacent hyphens'
+    assert '..' not in NAME, \
+        f'NAME "{NAME}" should not contain adjacent dots'
+    assert NAME[0].isalpha() and NAME[-1].isalpha(), \
+        f'NAME "{NAME}" should begin and end with an alphabetic character'
+    assert NAME.islower(), \
+        f'All alphabetic characters in NAME "{NAME}" should be in lowercase'
     
+    
+    top_non_namespace_package_import_path = NAME.replace('-', '_')
+
+    packages = top_non_namespace_package_import_path.split('.')
+
+    package_dir_path = project_source_tree_dir_path
+    for pkg in packages:
+        assert 1 <= len(pkg), 'implementation error'
+        package_dir_path = os.path.join(package_dir_path, pkg)
+        assert os.path.isdir(package_dir_path), \
+            f'Based on the given distribution package NAME "{NAME}", '+\
+            'it is expected that the following directory exists, '+\
+            'but it does not:\n' +\
+            package_dir_path
+
+    top_non_namespace_package_name = packages[-1]
+
+    top_non_namespace_package_dir_path = \
+        os.path.join(
+            project_source_tree_dir_path,
+            *packages
+        )
+    del packages
+
+    assert package_dir_path == top_non_namespace_package_dir_path, \
+        'implementation error'
+    del package_dir_path
+
+    assert os.path.isdir(top_non_namespace_package_dir_path), \
+        'implementation error'
+
+    assert top_non_namespace_package_name == \
+        os.path.basename(top_non_namespace_package_dir_path), \
+            'implementation error'
+
+
 
     readme_file_path = 'README.rst'
 
@@ -347,10 +395,11 @@ def main():
             readme       = "{readme_file_path}"
 
         [project.scripts]
-            "{package_module_dir_path}" = "{package_module_dir_path}.__main__:main"
+            "{top_non_namespace_package_name}" = """\
+                {top_non_namespace_package_import_path}.__main__:main"""
 
         [project.urls]
-            "Homepage" = "https://github.com/{GITHUB_USER}/{NAME}"
+            "Source" = "https://github.com/{GITHUB_USER}/{NAME}"
         '''
     )
     update_if_needed(
@@ -379,6 +428,7 @@ def main():
         [options]
             packages = find:
         [options.packages.find]
+            where = {project_source_tree_dir_path}
             exclude =
                 {docs_source_dir_path}
                 {docs_build_dir_path}
@@ -401,7 +451,7 @@ def main():
     for data_file_path_suffix in INCLUDE_FILES.split(':'):
 
         data_file_path = os.path.join(
-            package_module_dir_path,
+            top_non_namespace_package_dir_path,
             data_file_path_suffix
         )
 
