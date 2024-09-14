@@ -385,6 +385,9 @@ def main():
             requires      = [{BUILD_REQUIRES}]
             build-backend = "setuptools.build_meta"
 
+        [tool.setuptools]
+            packages = ["{top_non_namespace_package_import_path}"]
+
         [project]
             name         = "{NAME}"
             version      = "{VERSION}"
